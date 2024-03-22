@@ -3,7 +3,7 @@ import chisel3._
 import chisel3.util._
 import chisel3.stage.{ChiselGeneratorAnnotation, ChiselStage}
 import firrtl.options.TargetDirAnnotation
-import qdma.example._
+import qdma.examples._
 
 object elaborate extends App {
 	println("Generating a %s class".format(args(0)))
