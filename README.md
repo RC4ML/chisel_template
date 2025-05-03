@@ -46,7 +46,7 @@
 
 	Then you can generate your bitstream in vivado.
 
-5. Corresponding benchmark software and corresponding driver could be found in https://github.com/carlzhang4/qdma_improve
+5. Corresponding benchmark software and corresponding driver could be found in https://github.com/RC4ML/rc4ml_qdma
 
 	You can also write your own top file by refering QDMATop.scala.
 
