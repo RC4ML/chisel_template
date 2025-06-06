@@ -27,10 +27,11 @@
 
 1. First, create a vivado project, vivado version must either of 2020.01/2020.02/2021.01(recommended)
 
-2. Modify one line in ./qdma/src/QDMATop.scala, replace with your vivado version
+2. Modify one line in ./qdma/src/examples/basic/QDMATop.scala, replace with your vivado version and PCIe width, e.g.
 	```
-	val qdma = Module(new QDMA("202101")
-	```
+	val qdma = Module(new QDMA(VIVADO_VERSION="202101", PCIE_WIDTH=16)
+	```  
+	Note that `VIVADO_VERSION` should match your Vivado version, and `PCIE_WIDTH` is 16 for a PCIe Gen 3 machine (or 8 for a PCIe Gen 4 machine).
 
 3. Generate Top module
 	```
@@ -46,7 +47,7 @@
 
 	Then you can generate your bitstream in vivado.
 
-5. Corresponding benchmark software and corresponding driver could be found in https://github.com/carlzhang4/qdma_improve
+5. Corresponding benchmark software and corresponding driver could be found in https://github.com/RC4ML/rc4ml_qdma
 
 	You can also write your own top file by refering QDMATop.scala.
 
