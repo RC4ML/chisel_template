@@ -61,12 +61,15 @@
 	{
 		"project_foo":{
 			"destIPRepoPath" : "/path to your vivado project/example.srcs/sources_1/ip",
-			"destSrcPath" : "/path to your vivado project/example.srcs/sources_1/new"
+			"destSrcPath" : "/path to your vivado project/example.srcs/sources_1/new",
+			"moniterDelay" : 6,
+			"projectGeneration" : "Versal"
 		}
 	}
 	```
 	destSrcPath is where you want to put your sv file
 	destIPRepoPath is where you want to put your vivado ip if you have used chisel based ila in your project.
+	projectGeneration should be "ultrascale" if your target board is UltraScale+ boards (e.g., VCU128, U50, U280) or "versal" if your target borad is Versal boards (e.g., VHK158, V80)
 
 2. 
 	```

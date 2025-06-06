@@ -45,6 +45,7 @@ if not projectName in config:
 
 moniterDepth = config[projectName]["moniterDepth"] if "moniterDepth" in config[projectName] else 1024
 moniterDelay = config[projectName]["moniterDelay"] if "moniterDelay" in config[projectName] else 0
+projectGeneration = config[projectName]["projectGeneration"] if "projectGeneration" in config[projectName] else ""
 chiselProjectName = config[projectName]["chiselProjectName"] if "chiselProjectName" in config[projectName] else projectName
 
 argv = sys.argv[3:]
@@ -237,7 +238,10 @@ def generate_tcl(moniter):
 	tcl = ""
 	if moniter.type == "ila":
 		ip_name = moniter.name+"_inner"
-		tcl1 = "create_ip -name ila -vendor xilinx.com -library ip -version 6.2 -module_name "+ip_name
+		ip_block_name = "-name ila -version 6.2"
+		if projectGeneration.lower() == "versal":
+			ip_block_name = "-name axis_ila -version 1.3"
+		tcl1 = f"create_ip {ip_block_name} -vendor xilinx.com -library ip -module_name {ip_name}"
 		tcl2 = "set_property -dict [list "
 		tcl2 += "CONFIG.C_INPUT_PIPE_STAGES {%d} "%(moniterDelay)
 		for i in range(len(widths)):
@@ -246,7 +250,10 @@ def generate_tcl(moniter):
 		tcl = tcl1+"\n"+tcl2+"\n"
 	else:
 		ip_name = moniter.name+"_inner"
-		tcl1 = "create_ip -name vio -vendor xilinx.com -library ip -version 3.0 -module_name "+ip_name
+		ip_block_name = "-name vio -version 3.0"
+		if projectGeneration.lower() == "versal":
+			ip_block_name = "-name axis_vio -version 1.0"
+		tcl1 = f"create_ip {ip_block_name} -vendor xilinx.com -library ip -module_name "+ip_name
 		tcl2 = "set_property -dict [list "
 		tcl2 += "CONFIG.C_PROBE_OUT0_INIT_VAL {0x0} "
 		for i in range(len(widths)):
@@ -254,6 +261,7 @@ def generate_tcl(moniter):
 		tcl2+="CONFIG.C_NUM_PROBE_OUT {%d} CONFIG.C_EN_PROBE_IN_ACTIVITY {0} CONFIG.C_NUM_PROBE_IN {0}] [get_ips %s]"%(len(widths),ip_name)
 		tcl = tcl1+"\n"+tcl2+"\n"
 	return tcl
+
 def post_run():
 	initial_moniters_from_txt()
 	parse_verilog()
