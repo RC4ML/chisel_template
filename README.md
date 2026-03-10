@@ -27,15 +27,17 @@
 
 1. First, create a vivado project, vivado version must either of 2020.01/2020.02/2021.01(recommended)
 
-2. Modify one line in ./qdma/src/examples/basic/QDMATop.scala, replace with your vivado version and PCIe width, e.g.
+2. Create a config.json file in the project directory. See "How to simplify your workflow with several scripts" below.
+
+3. Modify one line in ./qdma/src/examples/basic/QDMATop.scala, replace with your vivado version and PCIe width, e.g.
 	```
 	val qdma = Module(new QDMA(VIVADO_VERSION="202101", PCIE_WIDTH=16)
 	```  
 	Note that `VIVADO_VERSION` should match your Vivado version, and `PCIE_WIDTH` is 16 for a PCIe Gen 3 machine (or 8 for a PCIe Gen 4 machine).
 
-3. Generate Top module
+4. Generate Top module
 	```
-	$ mill project_foo QDMATop
+	$ python3 postElaborating.py project_foo QDMATop
 	```
 	This will generate a QDMATop.sv under Verilog folder, copy and add it to your vivado project. 
 
@@ -43,11 +45,11 @@
 
 	Copy these tcls and execute them in your vivado project's tcl console, this will help you to generate a QDMA IP.
 
-4. Copy xdc file (./qdma/sv) to your vivado project and add it as constraint.
+5. Copy xdc file (./qdma/sv) to your vivado project and add it as constraint.
 
 	Then you can generate your bitstream in vivado.
 
-5. Corresponding benchmark software and corresponding driver could be found in https://github.com/RC4ML/rc4ml_qdma
+6. Corresponding benchmark software and corresponding driver could be found in https://github.com/RC4ML/rc4ml_qdma
 
 	You can also write your own top file by refering QDMATop.scala.
 
@@ -64,7 +66,7 @@
 			"destIPRepoPath" : "/path to your vivado project/example.srcs/sources_1/ip",
 			"destSrcPath" : "/path to your vivado project/example.srcs/sources_1/new",
 			"moniterDelay" : 6,
-			"projectGeneration" : "Versal"
+			"projectGeneration" : "ultrascale"
 		}
 	}
 	```
